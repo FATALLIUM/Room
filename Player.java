@@ -7,7 +7,6 @@ public class Player {
 
     public void addItem(String item) {
         if (!hasItem(item)) {
-            item = item.substring(0,1).toUpperCase() + item.substring(1);
             System.out.println("\n+ " + item + " added to inventory.\n");
             for (int i = 0; i < inventory.length; i++) {
                 if (inventory[i].equals(" ")) {
@@ -18,6 +17,17 @@ public class Player {
         }
         else {
             System.out.println("\n+ You already have this item.\n");
+        }
+    }
+
+    public void removeItem(String item) {
+        if (hasItem(item)) {
+            for (int i = 0; i < inventory.length; i++) {
+                if (inventory[i].equals(item)) {
+                    inventory[i] = " ";
+                    break;
+                }
+            }
         }
     }
 

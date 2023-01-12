@@ -10,7 +10,7 @@ public class Artifact {
             case 0:
                 return "teacup";
             case 1:
-                return "vase";
+                return "matches";
             case 2:
                 return "toothbrush";
             case 3:
