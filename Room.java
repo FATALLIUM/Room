@@ -160,11 +160,11 @@ public class Room {
                 break;
             case 2: // search in bathroom
                 System.out.println("\nThis is the most disgusting and utterly pungent bathroom you have ever set foot in.");
-                System.out.println("\n1. \n2. \n3. \n4. ");
+                System.out.println("\n1. Photo\n2. Sink\n3. Toilet\n4. Shower");
                 break;
             case 3: // search in bedroom
                 System.out.println("\nOne left.");
-                System.out.println("\n1. \n2. \n3. \n4. ");
+                System.out.println("\n1. Painting\n2. Bed\n3. Desk\n4. Closet");
                 break;
         }
     }
