@@ -2,9 +2,11 @@ public class Player {
     private String[] inventory;
 
     public Player() {
+        // initialize inventory
         this.inventory = new String[] {" ", " ", " ", " ", " ", " "};
     }
 
+    // adding item to inventory
     public void addItem(String item) {
         if (!hasItem(item)) {
             System.out.println("\n+ " + item + " added to inventory.\n");
@@ -20,6 +22,7 @@ public class Player {
         }
     }
 
+    // remove item if hasItem()
     public void removeItem(String item) {
         if (hasItem(item)) {
             for (int i = 0; i < inventory.length; i++) {
@@ -31,6 +34,7 @@ public class Player {
         }
     }
 
+    // print the inventory
     public void printInventory() {
         System.out.println("\nInventory: ");
         for (int i = 0; i < inventory.length; i++) {
@@ -43,6 +47,7 @@ public class Player {
         }
     }
 
+    // check if inventory contains item
     public boolean hasItem(String item) {
         for (int i = 0; i < inventory.length; i ++) {
             if (inventory[i].equals(item)) {
@@ -52,13 +57,14 @@ public class Player {
         return false;
     }
 
+    // checking if inventory has all needed artifacts
     public boolean hasAllArtifacts() {
         String invStr = "";
         for (int i = 0; i < inventory.length; i ++) {
             invStr += inventory[i];
         }
 
-        if (invStr.contains("teacup") && invStr.contains("toothbrush") && invStr.contains("vase") && invStr.contains("EXTREME DELUXE-100 MEGA-WATT LOTION CREAM")) {
+        if (invStr.contains("EXTREME DELUXE-100 MEGA-WATT LOTION CREAM")) {
             return true;
         }
         return false;

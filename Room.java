@@ -1,13 +1,16 @@
 import java.util.Scanner;
 
 public class Room {
-    private int roomNumber;
-    private String action;
-    private Player player;
+    private int roomNumber; // keep track of what room you're in
+    private String action; // user's action (global)
+    private Player player; // Player obj
 
     public Room() {
+        // default roomNumber to 0
         roomNumber = 0;
     }
+
+    // informs the player know which room they are currently in using two parameters (int and String)
     private void roomPuzzle(int roomNumber, String name) {
         switch(roomNumber) {
             case 0:
@@ -25,8 +28,9 @@ public class Room {
         }
     }
 
+    // where everything is set together
     public void playRoom() {
-        // create new opjects
+        // create new objects
         player = new Player();
         Artifact artifact = new Artifact();
         Scanner scan = new Scanner(System.in);
@@ -34,21 +38,24 @@ public class Room {
         System.out.println("\nWelcome, player! This is a text-adventure where you need to escape the house." +
                 "\nCollect all artifacts from four rooms in order to leave the premises!\n\nGood luck!");
 
+        // while the player doesn't have all the artifacts, run the current room
+        // print the 'main' menu
         while (!player.hasAllArtifacts()) {
             roomPuzzle(roomNumber, artifact.getName(roomNumber));
             printActions(artifact);
             action = scan.nextLine();
             switch (action) {
-                case "1":
+                case "1":   // check surroundings
                     roomLook(roomNumber, artifact);
                     break;
-                case "2":
+                case "2":   // check inventory
                     player.printInventory();
                     break;
-                case "3":
+                case "3":   // exit game
                     System.out.println("\n\nGood-bye!");
                     System.exit(0);
-                case "4":
+                case "4":   // option available only when player has found the current room's artifact
+                            // if they did, they are allowed to leave the current room
                     if (artifact.isFound()) {
                         System.out.println("\nYou leave the room.");
                         incrRmNum();
@@ -61,8 +68,12 @@ public class Room {
                     break;
             }
         }
+        System.out.println("\nYou've collected the last artifact! Huzzah!\nYou leave the premises unscathed.");
+        System.exit(0);
     }
 
+    // check surroundings depending on current
+    // room (with Artifact obj)
     private void roomLook(int roomNumber, Artifact artifact) {
         Scanner scan = new Scanner(System.in);
         switch(roomNumber) {
@@ -72,28 +83,32 @@ public class Room {
                 action = scan.nextLine();
                 switch (action) {
                     case "1":
+                        // check cupboards
                         if (artifact.isFound()) {
                             System.out.println("\nCobwebs and dust.");
                             break;
                         }
-                        System.out.println("\nYou open the cupboards. A cockroach crawls out and tap-dances away.\nThere's a porcelain item in the back of the cupboard." +
-                                "\nGrab it?\n1. Grab\n2. Don't grab\n");
-                        action = scan.nextLine();
-                        switch (action) {
-                            case "1":
-                                player.addItem(artifact.getName(roomNumber));
-                                System.out.println("\nYou have found this room's artifact!\nYou may now head to the next room.\n...\n");
-                                artifact.setFound(true);
-                                break;
-                            case "2":
-                                System.out.println("\nYou leave the item.");
-                                break;
-                            default:
-                                System.out.println("Invalid decision.");
-                                break;
+                        else {
+                            System.out.println("\nYou open the cupboards. A cockroach crawls out and tap-dances away.\nThere's a porcelain item in the back of the cupboard." +
+                                    "\nGrab it?\n1. Grab\n2. Don't grab\n");
+                            action = scan.nextLine();
+                            switch (action) {
+                                case "1":
+                                    player.addItem(artifact.getName(roomNumber));
+                                    System.out.println("\nYou have found this room's artifact!\nYou may now head to the next room.\n...\n");
+                                    artifact.setFound(true);
+                                    break;
+                                case "2":
+                                    System.out.println("\nYou leave the item.");
+                                    break;
+                                default:
+                                    System.out.println("Invalid decision.");
+                                    break;
+                            }
                         }
                         break;
                     case "2":
+                        // check sink
                         System.out.println("\nYou look inside the sink. There's bits of leftover cheese and what looks like shredded meat." +
                                 "\nThere's nothing else here.");
                         break;
@@ -102,33 +117,40 @@ public class Room {
                         break;
                 }
                 break;
+            // ----------------------------------------------------
+            // ----------------------------------------------------
+            // ----------------------------------------------------
             case 1: // search in living room
                 System.out.println("\nIt smells like sea salt in here. There's a sofa, a cabinet, and a window." +
                         "\n1. Sofa\n2. Cabinet\n3. Window");
                 action = scan.nextLine();
                 switch (action) {
                     case "1":
-                        if (player.hasItem("Key")) {
+                        // check sofa
+                        if (player.hasItem("key")) {
                             System.out.println("\nTattered and battered. Nothing useful.");
                             break;
                         }
-                        System.out.println("\nA beat-up sofa. There's something shiny beneath a cushion.\n" +
-                                "1. Grab it\n2. Don't grab\n");
-                        action = scan.nextLine();
-                        switch (action) {
-                            case "1":
-                                System.out.println("\nYou grab the shiny thing. It's a key.");
-                                player.addItem("key");
-                                break;
-                            case "2":
-                                System.out.println("\nYou leave the sofa.");
-                                break;
-                            default:
-                                System.out.println("\nInvalid decision.");
-                                break;
+                        else {
+                            System.out.println("\nA beat-up sofa. There's something shiny beneath a cushion.\n" +
+                                    "1. Grab it\n2. Don't grab\n");
+                            action = scan.nextLine();
+                            switch (action) {
+                                case "1":
+                                    System.out.println("\nYou grab the shiny thing. It's a key.");
+                                    player.addItem("key");
+                                    break;
+                                case "2":
+                                    System.out.println("\nYou leave the sofa.");
+                                    break;
+                                default:
+                                    System.out.println("\nInvalid decision.");
+                                    break;
+                            }
                         }
                         break;
                     case "2":
+                        // check cabinet
                         if (!artifact.isFound()) {
                             System.out.println("\nIt's a locked cabinet. Rusty and musty.");
                             if (player.hasItem("key")) {
@@ -148,6 +170,7 @@ public class Room {
                                         break;
                                     case "2":
                                         System.out.println("\nYou leave the matches.");
+                                        player.addItem("key");
                                         break;
                                     default:
                                         System.out.println("Invalid decision.");
@@ -157,24 +180,31 @@ public class Room {
                         }
                         else {
                             System.out.println("\nAn empty cabinet.");
+                            break;
                         }
                         break;
                     case "3":
-                        System.out.println("\nYou look outside the window. It's too dark out.\nYou can barely make out a figure in the background.");
+                        // check window
+                        System.out.println("\nYou look outside the window. It's dark out.\nYou can barely make out a figure in the background.");
                         break;
                     default:
                         System.out.println("\nInvalid decision.");
                 }
                 break;
+            // ----------------------------------------------------
+            // ----------------------------------------------------
+            // ----------------------------------------------------
             case 2: // search in bathroom
                 System.out.println("\nThis is the most disgusting and utterly pungent bathroom you have ever set foot in.");
                 System.out.println("\n1. Photo\n2. Sink\n3. Toilet\n4. Shower");
                 action = scan.nextLine();
                 switch (action) {
                     case "1":
+                        // check photo
                         System.out.println("\nYou look at the photo of a lake. You don't like it.");
                         break;
                     case "2":
+                        // check sink: mirror or drawer
                         System.out.println("\nThere's black, sludge-like water in the sink.");
                         System.out.println("\n1. Mirror\n2. Drawer");
                         action = scan.nextLine();
@@ -229,9 +259,11 @@ public class Room {
                         }
                         break;
                     case "3":
+                        // check toilet
                         System.out.println("\nIt smells great.");
                         break;
                     case "4":
+                        // check shower
                         System.out.println("\nDo you really want to look?\n1. Yes\n2. No");
                         action = scan.nextLine();
                         switch (action) {
@@ -252,6 +284,9 @@ public class Room {
                 }
 
                 break;
+            // ----------------------------------------------------
+            // ----------------------------------------------------
+            // ----------------------------------------------------
             case 3: // search in bedroom
                 System.out.println("\nOne left.");
                 if (player.hasItem("jug of gasoline") && player.hasItem("tattered bedsheets")) {
@@ -261,32 +296,47 @@ public class Room {
                 action = scan.nextLine();
                 switch (action) {
                     case "1":
+                        // check painting
                         System.out.println("\nIt's a painted portrait of you.");
                         break;
                     case "2":
+                        // part two of mattress
                         System.out.println("\nThe mattress seems to have gone through a few beatings.");
+
+                        // setting stuff on fire part one
                         if (player.hasItem("jug of gasoline") && player.hasItem("tattered bedsheets")) {
                             System.out.println("\n1. Commit arson\n");
                             action = scan.nextLine();
                             switch (action) {
                                 case "1":
-                                    System.out.println("\n1. Douse items in gasoline");
-                                    action = scan.nextLine();
-                                    action = scan.nextLine();
-                                    System.out.println("\n1. Use matches");
-                                    System.out.println("You have found the " + artifact.getName(roomNumber) + "!!!");
-                                    break;
+                                        System.out.println("\n1. Douse items in gasoline");
+                                        action = scan.nextLine();
+                                        switch (action) {
+                                            case "1":
+                                                System.out.println("\nYou douse all your acquired items in gasoline.");
+                                                player.removeItem("tattered blankets");
+                                                player.removeItem("jug of gasoline");
+                                                player.removeItem("teacup");
+                                                player.removeItem("toothbrush");
+                                                break;
+                                            default:
+                                                System.out.println("Invalid decision.");
+                                                break;
+                                        }
+                                        break;
                                 default:
                                     System.out.println("Invalid decision.");
                                     break;
                             }
                         }
-                        else if (player.hasItem("tattered bedsheets")) {
+
+                        // if player doesn't have gasoline yet but has all other items
+                        if (player.hasItem("toothbrush") && player.hasItem("tattered blankets")) {
                             System.out.println("\n1. Look under\n2. Sleep");
                             action = scan.nextLine();
                             switch (action) {
                                 case "1":
-                                   // bed
+                                    System.out.println("\nBut you refused.");
                                     break;
                                 case "2":
                                     System.out.println("\nGood idea.\n\nYou go to bed");
@@ -297,8 +347,35 @@ public class Room {
                                     break;
                             }
                         }
+
+                        // setting stuff on fire part two
+                        if (!player.hasItem("toothbrush") && player.hasItem("matches")) {
+                            System.out.println("\n1. Use matches");
+                            action = scan.nextLine();
+                            switch (action) {
+                                case "1":
+                                    System.out.println("\nYou use the matches.");
+                                    player.removeItem("matches");
+                                    System.out.println("\nYou set the mattress on fire. Woo, arson!");
+                                    break;
+                                default:
+                                    System.out.println("Invalid decision.");
+                                    break;
+                            }
+                            break;
+                        }
+
+                        // final part of mattress
+                        if (!player.hasItem("matches") && !player.hasItem("toothbrush")) {
+                            System.out.println("\nYou look under the charred bed.");
+                            System.out.println("You have found the " + artifact.getName(roomNumber) + "!!!");
+                            player.addItem(artifact.getName(roomNumber));
+                            break;
+                        }
+
+                        // part one of mattress (normal)
                         else {
-                            System.out.println("\n1. Look under\n2. Take bedsheets\3. Sleep");
+                            System.out.println("\n1. Look under\n2. Take bedsheets\n3. Sleep");
                             action = scan.nextLine();
                             switch (action) {
                                 case "1":
@@ -318,6 +395,8 @@ public class Room {
                             }
                         }
                         break;
+
+                    // check desk
                     case  "3":
                         System.out.println("\nThe desk is immaculate.");
                         System.out.println("\n1. Yellowed paper\n2. Leave desk");
@@ -345,6 +424,7 @@ public class Room {
                         }
                         break;
                     case "4":
+                        // check closet
                         System.out.println("\nMaple wood.");
                         System.out.println("\n1. Open");
                         action = scan.nextLine();
@@ -381,13 +461,18 @@ public class Room {
                         break;
                 }
                 break;
+            default:
+                System.out.println("Invalid decision.");
+                break;
         }
     }
 
+    // add to roomNumber when the user has finished current room
     private void incrRmNum() {
         roomNumber++;
     }
 
+    // print menu
     public void printActions(Artifact artifact) {
         if (artifact.isFound()) {
             System.out.println("\nACTIONS:\n1. Look around\n2. Inventory\n3. Exit game\n4. Move to the next room");
