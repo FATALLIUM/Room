@@ -17,6 +17,8 @@ public class Artifact {
                 return "toothbrush";
             case 3:
                 return "EXTREME DELUXE-100 MEGA-WATT LOTION CREAM";
+            case 4:
+                return "The Finality";
         }
         return ";";
     }

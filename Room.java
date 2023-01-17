@@ -17,13 +17,19 @@ public class Room {
                 System.out.println("\nThis is the kitchen. The artifact is you need is a " + name + ".");
                 break;
             case 1:
-                System.out.println("\nThis is the living room. The artifact you need is a " + name + ".");
+                System.out.println("\nThis is the living room. The artifact you need are " + name + ".");
                 break;
             case 2:
                 System.out.println("\nThis is the bathroom. The artifact you need is a " + name + ".");
                 break;
             case 3:
                 System.out.println("\nThis is the bedroom. The artifact you need is a " + name + ".");
+                break;
+            case 4:
+                System.out.println("\nAnother plane of reality. You need to find " + name + ".");
+                break;
+            default:
+                System.out.println("\nEmpty.");
                 break;
         }
     }
@@ -40,43 +46,41 @@ public class Room {
 
         // while the player doesn't have all the artifacts, run the current room
         // print the 'main' menu
-        while (!player.hasAllArtifacts()) {
-            roomPuzzle(roomNumber, artifact.getName(roomNumber));
-            printActions(artifact);
-            action = scan.nextLine();
-            switch (action) {
-                case "1":   // check surroundings
-                    roomLook(roomNumber, artifact);
-                    break;
-                case "2":   // check inventory
-                    player.printInventory();
-                    break;
-                case "3":   // exit game
-                    System.out.println("\n\nGood-bye!");
-                    System.exit(0);
-                case "4":   // option available only when player has found the current room's artifact
-                            // if they did, they are allowed to leave the current room
-                    if (artifact.isFound()) {
-                        System.out.println("\nYou leave the room.");
-                        incrRmNum();
-                        artifact.setFound(false);
-                        break;
-                    }
-                    else {
-                        System.out.println("Invalid decision.");
-                    }
-                    break;
-            }
-        }
+        executeActions(player, artifact, scan);
+
         System.out.println("\nYou've collected the last artifact! Huzzah!\nYou leave the premises unscathed.");
+        System.out.println("\n\nWould you like to play the trial DLC?\n1. Yes\n2. No");
+        action = scan.next();
+        switch (action) {
+            // head to the "DLC"
+            case "1":
+                incrRmNum();
+                executeActions(player, artifact, scan);
+                break;
+            // Leave the game
+            case "2":
+                System.exit(0);
+                break;
+            default:
+                System.out.println("\nInvalid decision.");
+                break;
+        }
+        System.out.println();
         System.exit(0);
     }
 
     // check surroundings depending on current
     // room (with Artifact obj)
+    // ugly as heck
+    // h u g e switch statements (massive, ginormous, ungodly and satanic [endearment])
+    // was deciding between different methods for each room but decided to converge them all
     private void roomLook(int roomNumber, Artifact artifact) {
         Scanner scan = new Scanner(System.in);
+
         switch(roomNumber) {
+            // ----------------------------------------------------
+            // ----------------------------------------------------
+            // ----------------------------------------------------
             case 0: // search in kitchen
                 System.out.println("\nThe cupboards have scratch marks. The sink has hair in it. The hair is choppy." +
                         "\n1. Cupboards\n2. Sink\n");
@@ -198,16 +202,19 @@ public class Room {
                 System.out.println("\nThis is the most disgusting and utterly pungent bathroom you have ever set foot in.");
                 System.out.println("\n1. Photo\n2. Sink\n3. Toilet\n4. Shower");
                 action = scan.nextLine();
+
                 switch (action) {
                     case "1":
                         // check photo
                         System.out.println("\nYou look at the photo of a lake. You don't like it.");
                         break;
+
                     case "2":
                         // check sink: mirror or drawer
                         System.out.println("\nThere's black, sludge-like water in the sink.");
                         System.out.println("\n1. Mirror\n2. Drawer");
                         action = scan.nextLine();
+
                         switch (action) {
                             case "1":
                                 System.out.println("\nThee mirror has a note that says: \n" +
@@ -258,10 +265,12 @@ public class Room {
                                 break;
                         }
                         break;
+
                     case "3":
                         // check toilet
                         System.out.println("\nIt smells great.");
                         break;
+
                     case "4":
                         // check shower
                         System.out.println("\nDo you really want to look?\n1. Yes\n2. No");
@@ -292,13 +301,16 @@ public class Room {
                 if (player.hasItem("jug of gasoline") && player.hasItem("tattered bedsheets")) {
                     System.out.println("\nMattress.");
                 }
+
                 System.out.println("\n1. Painting\n2. Bed\n3. Desk\n4. Closet");
                 action = scan.nextLine();
+
                 switch (action) {
                     case "1":
                         // check painting
                         System.out.println("\nIt's a painted portrait of you.");
                         break;
+
                     case "2":
                         // part two of mattress
                         System.out.println("\nThe mattress seems to have gone through a few beatings.");
@@ -423,6 +435,7 @@ public class Room {
                                 break;
                         }
                         break;
+
                     case "4":
                         // check closet
                         System.out.println("\nMaple wood.");
@@ -461,6 +474,42 @@ public class Room {
                         break;
                 }
                 break;
+            // ----------------------------------------------------
+            // ----------------------------------------------------
+            // ----------------------------------------------------
+            case 4: // "DLC"!!!
+                System.out.println("\nYou don't belong here.");
+                System.out.println("\n1. God\n2. Jolly Good Man That Looks Suspicious\n3. Bed of stars\n4. Desk\n5. The Sink");
+                action = scan.nextLine();
+
+                switch (action) {
+                    case "1":   // God
+                        System.out.println("\nIt's God. It's currently playing chess with cows.");
+                        System.out.println("\nInterrupt them?\n1. Yes\n2. No");
+                        action = scan.nextLine();
+
+                        switch (action) {
+
+                        }
+                        break;
+
+                    case "2":   // NPC
+                        break;
+                    case "3":   // bed of stars
+                        break;
+                    case "4":   // a desk
+                        System.out.println("\nAn immaculate desk. Looks like the one in the house.");
+                        System.out.println("\n");
+                        break;
+                    case "5":   // look at The Sink
+                        System.out.println("\nIt's not [[[A]]] sink, it's [[[THE SINK]]].");
+
+                        break;
+                    default:
+                        System.out.println("\nInvalid action.");
+                        break;
+                }
+                break;
             default:
                 System.out.println("Invalid decision.");
                 break;
@@ -473,12 +522,44 @@ public class Room {
     }
 
     // print menu
-    public void printActions(Artifact artifact) {
+    private void printActions(Artifact artifact) {
         if (artifact.isFound()) {
             System.out.println("\nACTIONS:\n1. Look around\n2. Inventory\n3. Exit game\n4. Move to the next room");
         }
         else {
             System.out.println("\nACTIONS:\n1. Look around\n2. Inventory\n3. Exit game");
+        }
+    }
+
+    // when the player with the menu
+    private void executeActions(Player player, Artifact artifact, Scanner scan) {
+        while (!player.hasAllArtifacts()) {
+            roomPuzzle(roomNumber, artifact.getName(roomNumber));
+            printActions(artifact);
+            action = scan.nextLine();
+            switch (action) {
+                case "1":   // check surroundings
+                    roomLook(roomNumber, artifact);
+                    break;
+                case "2":   // check inventory
+                    player.printInventory();
+                    break;
+                case "3":   // exit game
+                    System.out.println("\n\nGood-bye!");
+                    System.exit(0);
+                case "4":   // option available only when player has found the current area's artifact
+                    // if they did, they are allowed to leave the current area
+                    if (artifact.isFound()) {
+                        System.out.println("\nYou leave the area.");
+                        incrRmNum();
+                        artifact.setFound(false);
+                        break;
+                    }
+                    else {
+                        System.out.println("Invalid decision.");
+                    }
+                    break;
+            }
         }
     }
 }
