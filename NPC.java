@@ -1,27 +1,28 @@
 public class NPC {
-    private String name;
+    private int godTalk;
+    private int jollyTalk;
 
-    public NPC (String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void interact(String name, int interaction) {
+    public void incrTalk(String name) {
         switch (name) {
-            case "God":
-                switch (interaction) {
-                    default:
-                        System.out.println("Error.");
-                        break;
-                }
+            case "god":
+                godTalk++;
                 break;
-            case "Jolly Man":
+            case "jolly":
+                jollyTalk++;
                 break;
             default:
-                System.out.println("Error.");
+                System.out.println("Error talk 0.");
+        }
+    }
+
+    public int getTalk(String name) {
+        switch (name) {
+            case "god":
+                return godTalk;
+            case "jolly":
+                return jollyTalk;
+            default:
+                System.out.println("Error retrieving talk 0.");
         }
     }
 }
