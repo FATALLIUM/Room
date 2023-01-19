@@ -3,7 +3,7 @@ public class Player {
 
     public Player() {
         // initialize inventory
-        this.inventory = new String[] {" ", " ", " ", " ", " ", " "};
+        this.inventory = new String[] {" ", " ", " ", " ", " ", " ", " ", " "};
     }
 
     // adding item to inventory

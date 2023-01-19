@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+// transcription of the entire script/interactions the player can do
 public class Interaction {
     private Player player;
     private Artifact artifact;
@@ -173,6 +174,7 @@ public class Interaction {
                                         case "1":
                                             System.out.println("\nEnter the pin (in digits): ");
                                             action = scan.nextLine();
+
                                             if (action.equals("789")) {
                                                 System.out.println("\nYou unlocked the drawer. Inside is a toothbrush.");
                                                 System.out.println("\n1. Take toothbrush\n2. Leave toothbrush");
@@ -450,12 +452,14 @@ public class Interaction {
                                                 "Let's see... There's Gerold, Gerome, Gorm, Grelda, Grimes...");
                                         System.out.println("\nYou lose interest.");
                                         break;
+
                                     case "2":
                                         System.out.println("\nGod: Leaving? Uh. About that... You see that man over there?\nGod: " +
                                                 "Dude kind of threatened me from dissolving this domain. Dunno why.\nGod: Good thing I got this" +
                                                 " crazy [Cake Recipe], huh?");
                                         if (npc.getTalk("god") == 0) {npc.incrTalk("god");}
                                         break;
+
                                     case "3":
                                         if (npc.getTalk("god") == 1 && !player.hasItem("cake recipe")) {
                                             System.out.println("\nGod: It's a recipe for the most delicious" +
@@ -465,16 +469,33 @@ public class Interaction {
                                         else if (npc.getTalk("god") == 1 && player.hasItem("cake recipe")) {
                                             System.out.println("\nGod: Oh boy. It's been too long since I've had cake." +
                                                     " The ingredients are probably scattered somewhere. I get rather forgetful.");
+                                            System.out.println("\nGod: Would you like me to list the ingredients?\n1. Yes\n2. No");
+
+                                            action = scan.nextLine();
+
+                                            switch (action) {
+                                                case "1":
+                                                    System.out.println("\nGod: You need milk, eggs, strawberries, and chocolate.");
+                                                    break;
+                                                case "2":
+                                                    System.out.println("\nGod: Okay.\nIt returns to their chess game.");
+                                                    break;
+                                                default:
+                                                    System.out.println("Invalid decision.");
+                                                    break;
+                                            }
                                         }
                                         else {
                                             System.out.println("Invalid decision.");
                                         }
                                         break;
+
                                     default:
                                         System.out.println("Invalid decision.");
                                         break;
                                 }
                                 break;
+
                             case "2":   // stare
                                 int random = (int) (Math.random() * 3) + 1;
                                 switch (random) {
@@ -501,15 +522,147 @@ public class Interaction {
                     case "2":   // jolly man
                         System.out.println("\nA middle-aged man. He seems to be mumbling to himself.");
                         break;
+
                     case "3":   // bed of stars
+                        String triangle= "";
+                        System.out.println("\nShiny. They're assembled in a triangle-like formation.");
+                        System.out.println("\n");   // print pascal's triangle somehow
                         break;
+
                     case "4":   // a desk
                         System.out.println("\nAn immaculate desk. Looks like the one in the house.");
-                        System.out.println("\n");
+                        System.out.println("\n1. Search\n2. Look under");
+                        action = scan.nextLine();
+
+                        switch (action) {
+                            case "1":
+                                System.out.println("\n1. Drawers\n2. Cardboard box\n3. Lamp");
+                                action = scan.nextLine();
+
+                                switch (action) {
+                                    // check drawers
+                                    case "1":
+                                        if (player.hasItem("knife")) {
+                                            System.out.println("\nUseless knick-knacks.");
+                                        }
+                                        else {
+                                            System.out.println("\nThere's a knife.");
+                                            System.out.println("\n1. Take knife\n2. Leave knife");
+                                            action = scan.nextLine();
+
+                                            switch (action) {
+                                                case "1":
+                                                    System.out.println("\nShould be useful.");
+                                                    player.addItem("knife");
+                                                    break;
+                                                case "2":
+                                                    System.out.println("\nYou leave the knife.");
+                                                    break;
+                                                default:
+                                                    System.out.println("Invalid decision.");
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                    // check cardboard box
+                                    case "2":
+                                        if (player.hasItem("knife") && !player.hasItem("cake recipe")) {
+                                            System.out.println("\nUse the knife to open the box?\n1. Yes\n2. No");
+                                            action = scan.nextLine();
+
+                                            switch (action) {
+                                                case "1":
+                                                    System.out.println("\nYou use the knife to open the box.");
+                                                    System.out.println("\nThere's a piece of yellowed parchment paper.\n" +
+                                                            "1. Take paper\n2. Leave paper");
+                                                    action = scan.nextLine();
+
+                                                    switch (action) {
+                                                        case "1":
+                                                            System.out.println("\nIt's a cake recipe. You don't know the language... Perhaps someone else can.");
+                                                            player.addItem("cake recipe");
+                                                            break;
+                                                        case "2":
+                                                            System.out.println("\nYou leave the desk.");
+                                                            break;
+                                                        default:
+                                                            System.out.println("Invalid decision.");
+                                                    }
+                                                    break;
+                                                case "2":
+                                                    System.out.println("\nYou leave the box.");
+                                                    break;
+                                                default:
+                                                    System.out.println("Invalid decision.");
+                                            }
+                                        }
+                                        else if (player.hasItem("knife") && player.hasItem("cake recipe")) {
+                                            System.out.println("\nAn empty cardboard box.");
+                                        }
+                                        else {
+                                            System.out.println("\nA cardboard box taped up. You need a sharp object for this.");
+                                        }
+                                        break;
+                                    // check lamp
+                                    case "3":
+                                        System.out.println("\nA lamp. It's broken.");
+                                        System.out.println("\nThere's a stamp that says RGB. Or is it KGB... ?");
+                                        break;
+                                    default:
+                                        System.out.println("Invalid decision.");
+                                        break;
+                                }
+                                break;
+                            case "2":
+                                if (player.hasItem("strawberries")) {
+                                    System.out.println("\nYou look under. There's an empty chest.");
+                                }
+                                else {
+                                    System.out.println("\nYou look under. There's a locked chest.");
+                                    System.out.println("\nEnter pin\n1. Yes\n2. No");
+                                    action = scan.nextLine();
+
+                                    switch (action) {
+                                        case "1":
+                                            System.out.println("\nEnter the pin (in digits): " );
+                                            action = scan.nextLine();
+
+                                            if (action.equals("14641")) {
+                                                System.out.println("\nYou hear a click.");
+                                                System.out.println("\nThere's a box of perfect, ripe strawberries.\n1. Take strawberries\n2. Leave strawberries");
+
+                                                action = scan.nextLine();
+
+                                                switch (action) {
+                                                    case "1":
+                                                        player.addItem("strawberries");
+                                                        break;
+                                                    case "2":
+                                                        System.out.println("\nYou leave the strawberries.");
+                                                        break;
+                                                    default:
+                                                        System.out.println("Invalid decision.");
+                                                        break;
+                                                }
+                                            }
+                                            break;
+                                        case "2":
+                                            break;
+                                        default:
+                                            System.out.println("Invalid decision.");
+                                            break;
+                                    }
+                                }
+                                break;
+                            default:
+                                System.out.println("Invalid decision.");
+                                break;
+                        }
                         break;
+
                     case "5":   // look at The Sink
                         System.out.println("\nIt's not [[[A]]] sink, it's [[[THE SINK]]].");
-
+                        System.out.println("\nThis is also where you can assemble the cake.");
                         break;
                     default:
                         System.out.println("\nInvalid action.");

@@ -23,6 +23,8 @@ public class NPC {
                 return jollyTalk;
             default:
                 System.out.println("Error retrieving talk 0.");
+                break;
         }
+        return -1;
     }
 }
