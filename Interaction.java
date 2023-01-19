@@ -451,19 +451,20 @@ public class Interaction {
                                         System.out.println("\nYou lose interest.");
                                         break;
                                     case "2":
-
                                         System.out.println("\nGod: Leaving? Uh. About that... You see that man over there?\nGod: " +
-                                                "Dude kind of threatened me from dissolving this domain. Dunno why.");
-                                        npc.incrTalk("god");
+                                                "Dude kind of threatened me from dissolving this domain. Dunno why.\nGod: Good thing I got this" +
+                                                " crazy [Cake Recipe], huh?");
+                                        if (npc.getTalk("god") == 0) {npc.incrTalk("god");}
                                         break;
                                     case "3":
                                         if (npc.getTalk("god") == 1 && !player.hasItem("cake recipe")) {
                                             System.out.println("\nGod: It's a recipe for the most delicious" +
                                                     " red-velvet-chocolate-coated-strawberry cake in existence! My son really outdid himself!");
-                                            System.out.println("\nGod: And, well. I guess it's also a panacea for crazy people.");
+                                            System.out.println("\nGod: And, well, I guess it's also a panacea for crazy people.");
                                         }
-                                        else if (npc.getTalk("god") == 1) {
-
+                                        else if (npc.getTalk("god") == 1 && player.hasItem("cake recipe")) {
+                                            System.out.println("\nGod: Oh boy. It's been too long since I've had cake." +
+                                                    " The ingredients are probably scattered somewhere. I get rather forgetful.");
                                         }
                                         else {
                                             System.out.println("Invalid decision.");
