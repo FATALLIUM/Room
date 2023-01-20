@@ -69,4 +69,20 @@ public class Player {
         }
         return false;
     }
+
+    public boolean hasAllIngredients() {
+        String invStr = "";
+        for (int i = 0; i < inventory.length; i ++) {
+            invStr += inventory[i];
+        }
+
+        if (invStr.contains("strawberries") && invStr.contains("milk") && invStr.contains("eggs") && invStr.contains("chocolate")) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean hasFinalFinality() {
+        return hasAllIngredients();
+    }
 }

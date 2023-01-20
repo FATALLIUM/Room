@@ -4,9 +4,12 @@ public class Room {
     private int roomNumber; // keep track of what room you're in
     private String action; // user's action (global)
 
+    private boolean dlcPlay;
+
     public Room() {
         // default roomNumber to 0
         roomNumber = 0;
+        dlcPlay = false;
     }
 
     // informs the player know which room they are currently in using two parameters (int and String)
@@ -57,6 +60,8 @@ public class Room {
             // head to the "DLC"
             case "1":
                 incrRmNum();
+                System.out.println(artifact.getName(roomNumber));
+                dlcPlay = true;
                 executeActions(player, artifact, scan, interaction);
                 break;
             // Leave the game
@@ -145,15 +150,34 @@ public class Room {
                     System.exit(0);
                 case "4":   // option available only when player has found the current area's artifact
                     // if they did, they are allowed to leave the current area
-                    if (artifact.isFound()) {
+                    if (artifact.isFound() && !dlcPlay) {
                         System.out.println("\nYou leave the area.");
                         incrRmNum();
                         artifact.setFound(false);
                         break;
                     }
-                    else {
-                        System.out.println("Invalid decision.");
-                    }
+                default:
+                    System.out.println("Invalid decision.");
+                    break;
+            }
+        }
+        if (dlcPlay) {
+            roomPuzzle(roomNumber, artifact.getName(roomNumber));
+            printActions(artifact);
+            action = scan.nextLine();
+
+            switch (action) {
+                case "1":   // check surroundings
+                    roomLook(roomNumber, interaction);
+                    break;
+                case "2":   // check inventory
+                    player.printInventory();
+                    break;
+                case "3":   // exit game
+                    System.out.println("\n\nGood-bye!");
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid decision.");
                     break;
             }
         }

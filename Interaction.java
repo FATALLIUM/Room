@@ -76,7 +76,7 @@ public class Interaction {
                 switch (action) {
                     case "1":
                         // check sofa
-                        if (player.hasItem("key")) {
+                        if (player.hasItem("matches") || player.hasItem("key")) {
                             System.out.println("\nTattered and battered. Nothing useful.");
                             break;
                         }
@@ -174,7 +174,6 @@ public class Interaction {
                                         case "1":
                                             System.out.println("\nEnter the pin (in digits): ");
                                             action = scan.nextLine();
-
                                             if (action.equals("789")) {
                                                 System.out.println("\nYou unlocked the drawer. Inside is a toothbrush.");
                                                 System.out.println("\n1. Take toothbrush\n2. Leave toothbrush");
@@ -327,6 +326,7 @@ public class Interaction {
                             System.out.println("\nYou look under the charred bed.");
                             System.out.println("You have found the " + artifact.getName(roomNumber) + "!!!");
                             player.addItem(artifact.getName(roomNumber));
+
                             break;
                         }
 
@@ -524,12 +524,36 @@ public class Interaction {
                         break;
 
                     case "3":   // bed of stars
-                        String triangle= "";
                         System.out.println("\nShiny. They're assembled in a triangle-like formation.");
-                        System.out.println("\n");   // print pascal's triangle somehow
+                        System.out.println("\nTalk to the stars\n2. Read note");
+                        action = scan.nextLine();
+
+                        switch (action) {
+                            case "1":
+                                System.out.println("\nStars: OH. HI. WHAT DO YOU WANT?");
+                                System.out.println("\n1. Ask about chocolate\n 2. Ask for hay.");
+                                action = scan.nextLine();
+
+                                switch (action) {
+                                    case "1":
+                                        System.out.println("\nStars: CHOCOLATE? WHY WOULD WE HAVE CHOCOLATE?");
+                                        break;
+                                    case "2":
+                                        break;
+                                    default:
+                                        System.out.println("Invalid decision.");
+                                }
+                                break;
+                            case "2":
+                                System.out.println("\nThere's a note that reads: 1\n 1 1\n 1 2 1\n 1 3 3 1\n... The last line is erased.");
+                                break;
+                            default:
+                                System.out.println("Invalid decision.");
+                                break;
+                        }
                         break;
 
-                    case "4":   // a desk
+                    case "4":   // a desk [fin]
                         System.out.println("\nAn immaculate desk. Looks like the one in the house.");
                         System.out.println("\n1. Search\n2. Look under");
                         action = scan.nextLine();
@@ -613,7 +637,7 @@ public class Interaction {
                                         break;
                                 }
                                 break;
-                            case "2":
+                            case "2":   // check under the desk
                                 if (player.hasItem("strawberries")) {
                                     System.out.println("\nYou look under. There's an empty chest.");
                                 }
@@ -647,6 +671,7 @@ public class Interaction {
                                             }
                                             break;
                                         case "2":
+                                            System.out.println("\nYou leave the box.");
                                             break;
                                         default:
                                             System.out.println("Invalid decision.");
@@ -660,9 +685,27 @@ public class Interaction {
                         }
                         break;
 
-                    case "5":   // look at The Sink
+                    case "5":   // look at The Sink + get The Finality
                         System.out.println("\nIt's not [[[A]]] sink, it's [[[THE SINK]]].");
-                        System.out.println("\nThis is also where you can assemble the cake.");
+                        System.out.println("\nThis is also where you can assemble the cake once you have [all the ingredients].");
+                        System.out.println("\nAssemble?\n1. Yes\n2. No");
+                        action = scan.nextLine();
+
+                        switch (action) {
+                            case "1":
+                                if (player.hasAllIngredients()) {
+                                    System.out.println("\n");
+                                }
+                                else {
+                                    System.out.println("\nYou don't have all the ingredients.");
+                                }
+                                break;
+                            case "2":
+                                break;
+                            default:
+                                System.out.println("Invalid decision.");
+                                break;
+                        }
                         break;
                     default:
                         System.out.println("\nInvalid action.");
