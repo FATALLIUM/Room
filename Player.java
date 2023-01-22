@@ -3,7 +3,7 @@ public class Player {
 
     public Player() {
         // initialize inventory
-        this.inventory = new String[] {" ", " ", " ", " ", " ", " ", " ", " "};
+        this.inventory = new String[] {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "};
     }
 
     // adding item to inventory
@@ -59,11 +59,7 @@ public class Player {
 
     // checking if inventory has all needed artifacts
     public boolean hasAllArtifacts() {
-        String invStr = "";
-        for (int i = 0; i < inventory.length; i ++) {
-            invStr += inventory[i];
-        }
-
+        String invStr = invToString();
         if (invStr.contains("EXTREME DELUXE-100 MEGA-WATT LOTION CREAM")) {
             return true;
         }
@@ -71,11 +67,7 @@ public class Player {
     }
 
     public boolean hasAllIngredients() {
-        String invStr = "";
-        for (int i = 0; i < inventory.length; i ++) {
-            invStr += inventory[i];
-        }
-
+        String invStr = invToString();
         if (invStr.contains("strawberries") && invStr.contains("milk") && invStr.contains("eggs") && invStr.contains("chocolate")) {
             return true;
         }
@@ -83,6 +75,18 @@ public class Player {
     }
 
     public boolean hasFinalFinality() {
-        return hasAllIngredients();
+        String invStr = invToString();
+        if (invStr.contains("The Finality")) {
+            return true;
+        }
+        return false;
+    }
+
+    private String invToString() {
+        String invStr = "";
+        for (int i = 0; i < inventory.length; i ++) {
+            invStr += inventory[i];
+        }
+        return  invStr;
     }
 }

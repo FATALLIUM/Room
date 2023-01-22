@@ -424,8 +424,13 @@ public class Interaction {
             // DLC
             case "DLC":
                 System.out.println("\nYou don't belong here.");
-                System.out.println("\n1. God\n2. Jolly Good Man That Looks Extremely Suspicious\n3. Bed of stars\n4. Desk\n5. The Sink");
-                action = scan.nextLine();
+
+                if (player.hasItem("hay")) {
+                    System.out.println("\n1. God\n2. Jolly Good Man That Looks Extremely Suspicious\n3. Bed of stars\n4. Desk\n5. The Sink\n6. Cow");
+                }
+                else {
+                    System.out.println("\n1. God\n2. Jolly Good Man That Looks Extremely Suspicious\n3. Bed of stars\n4. Desk\n5. The Sink");
+                }action = scan.nextLine();
 
                 switch (action) {
                     case "1":   // God
@@ -536,9 +541,47 @@ public class Interaction {
 
                                 switch (action) {
                                     case "1":
-                                        System.out.println("\nStars: CHOCOLATE? WHY WOULD WE HAVE CHOCOLATE?");
+                                        if (!player.hasItem("chocolate")) {
+                                            System.out.println("\nStars: CHOCOLATE? WHY WOULD WE HAVE CHOCOLATE?");
+                                            System.out.println("\nStars: OH, ACTUALLY, WE MIGHT HAVE SOME OF THOSE IN OUR 100-KARAT CHOCOLATE STASH.");
+                                            System.out.println("\nStars: WE'LL GIVE THE CHOCOLATE IF AND ONLY IF YOU ANSWER THIS RIDDLE CORRECTLY...");
+                                            System.out.println("\nListen to riddle?\n1. Yes\n2. No");
+                                            action = scan.nextLine();
+
+                                            switch (action) {
+                                                case "1":
+                                                    System.out.println("\nStars: WHAT GOES UP BUT NEVER COMES DOWN?");
+                                                    System.out.println("\nAnswer in [lowercase]:");
+                                                    action = scan.nextLine();
+
+                                                    if (action.equals("age")) {
+                                                        System.out.println("\nStars: AW, YOU GOT IT! HERE'S OUR 100-KARAT CHOCOLATE.");
+                                                        player.addItem("chocolate");
+                                                    }
+                                                    else {
+                                                        System.out.println("\nStars: YOU GOT IT WRONG! TOO BAD.");
+                                                    }
+                                                    break;
+                                                case "2":
+                                                    System.out.println("\nYou shake your head.");
+                                                    break;
+                                                default:
+                                                    System.out.println("Invalid decision.");
+                                                    break;
+                                            }
+                                        }
+                                        else {
+                                            System.out.println("\nStars: NO MORE CHOCOLATE STASH...");
+                                        }
                                         break;
                                     case "2":
+                                        if (!player.hasItem("hay")) {
+                                            System.out.println("\nStars: WHY WOULD WE HAVE HAY> GO ASK THAT WEIRD JOLLY GUY OVER THERE." +
+                                                    "\nSars: HE LOOOVES HAY.");
+                                        }
+                                        else {
+                                            System.out.println("\nStars: WOW, YOU ACTUALLY LISTENED TO US.");
+                                        }
                                         break;
                                     default:
                                         System.out.println("Invalid decision.");
@@ -637,6 +680,7 @@ public class Interaction {
                                         break;
                                 }
                                 break;
+
                             case "2":   // check under the desk
                                 if (player.hasItem("strawberries")) {
                                     System.out.println("\nYou look under. There's an empty chest.");
@@ -693,20 +737,37 @@ public class Interaction {
 
                         switch (action) {
                             case "1":
-                                if (player.hasAllIngredients()) {
-                                    System.out.println("\n");
+                                if (player.hasAllIngredients() && !player.hasFinalFinality()) {
+                                    System.out.println("\nYou mush the ingredients together...\n\n");
+                                    player.removeItem("chocolate");
+                                    player.removeItem("strawberries");
+                                    player.removeItem("milk");
+                                    player.removeItem("eggs");
+                                    player.addItem("The Finality");
+                                    System.out.println("\nWoo! You have collected the divine caketh of the gods!");
+                                    System.out.println("\nIn the distance, you can hear a jolly man wailing and a cow laughing...");
+                                    System.out.println("\n\nThe END!");
                                 }
                                 else {
                                     System.out.println("\nYou don't have all the ingredients.");
                                 }
                                 break;
                             case "2":
+                                System.out.println("\nYou leave The Sink.");
                                 break;
                             default:
                                 System.out.println("Invalid decision.");
                                 break;
                         }
                         break;
+
+                    case "6":
+                        if (player.hasItem("hay")) {
+                            System.out.println("\n");
+m
+                        }
+                        break;
+
                     default:
                         System.out.println("\nInvalid action.");
                         break;

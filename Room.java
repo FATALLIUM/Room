@@ -162,23 +162,25 @@ public class Room {
             }
         }
         if (dlcPlay) {
-            roomPuzzle(roomNumber, artifact.getName(roomNumber));
-            printActions(artifact);
-            action = scan.nextLine();
+            while (!player.hasFinalFinality()) {
+                roomPuzzle(roomNumber, artifact.getName(roomNumber));
+                printActions(artifact);
+                action = scan.nextLine();
 
-            switch (action) {
-                case "1":   // check surroundings
-                    roomLook(roomNumber, interaction);
-                    break;
-                case "2":   // check inventory
-                    player.printInventory();
-                    break;
-                case "3":   // exit game
-                    System.out.println("\n\nGood-bye!");
-                    System.exit(0);
-                default:
-                    System.out.println("Invalid decision.");
-                    break;
+                switch (action) {
+                    case "1":   // check surroundings
+                        roomLook(roomNumber, interaction);
+                        break;
+                    case "2":   // check inventory
+                        player.printInventory();
+                        break;
+                    case "3":   // exit game
+                        System.out.println("\n\nGood-bye!");
+                        System.exit(0);
+                    default:
+                        System.out.println("Invalid decision.");
+                        break;
+                }
             }
         }
     }
