@@ -1,3 +1,4 @@
+import javax.annotation.processing.SupportedSourceVersion;
 import java.util.Scanner;
 
 // transcription of the entire script/interactions the player can do
@@ -438,7 +439,7 @@ public class Interaction {
                         System.out.println("\nInterrupt them?\n1. Yes\n2. No");
                         action = scan.nextLine();
 
-                        // interact with God
+                        // interact with God [fin]
                         switch (action) {
                             case "1":   // talk
                                 System.out.println("\nGod: Oooh, don't bother me right now! Can't you see I'm busy?");
@@ -526,9 +527,57 @@ public class Interaction {
 
                     case "2":   // jolly man
                         System.out.println("\nA middle-aged man. He seems to be mumbling to himself.");
+                        if (player.hasItem("hay")) {
+                            System.out.println("\nJolly Man: Hm-hmm~ Ahoy! [laughs [un-suspiciously]]");
+                        }
+                        else {
+                            System.out.println("\nJolly Man: Halloo! Do ye need something?");
+                            System.out.println("\n1. Ask for hay\n2. Tell him to leave");
+                            action = scan.nextLine();
+
+                            switch (action) {
+                                case "1":
+                                    System.out.println("\nJolly Man: Hey! Hey!\n...\nJolly Main: Oh, you meant [hay]!");
+                                    System.out.println("\nJolly Man: If you can open this box, I'll give you some hay! Hay!");
+                                    System.out.println("\nEnter passcode [in lowercase]:");
+                                    action = scan.nextLine();
+
+                                    if (action.equals("rgb")) {
+                                        System.out.println("\nYou hear a click.");
+                                        player.addItem("hay");
+                                        System.out.println("\nJolly Man: Oh no! My hay! Oh well.");
+                                    }
+                                    else {
+                                        System.out.println("\nJolly Man: Incorrect!");
+                                    }
+                                    break;
+                                case "2":
+                                    int npcJolly = npc.getTalk("jolly man");
+                                    switch (npcJolly) {
+                                        case 0:
+                                            npc.incrTalk("jolly man");
+                                            System.out.println("\nJolly Man: Oh! But I have a doctor's appointment... I can't leave yet unfortunately!");
+                                            break;
+                                        case 1:
+                                            npc.incrTalk("jolly man");
+                                            System.out.println("\nJolly Man: I love apple pie! I gotta bake some tonight.");
+                                            break;
+                                        case 2:
+                                            System.out.println("\nJolly Man: Hmm... That cow is looking at me funny.");
+                                            break;
+                                        default:
+                                            System.out.println("NPC talk error.");
+                                            break;
+                                    }
+                                    break;
+                                default:
+                                    System.out.println("Invalid decision.");
+                                    break;
+                            }
+                        }
                         break;
 
-                    case "3":   // bed of stars
+                    case "3":   // bed of stars [fin]
                         System.out.println("\nShiny. They're assembled in a triangle-like formation.");
                         System.out.println("\nTalk to the stars\n2. Read note");
                         action = scan.nextLine();
@@ -729,7 +778,7 @@ public class Interaction {
                         }
                         break;
 
-                    case "5":   // look at The Sink + get The Finality
+                    case "5":   // look at The Sink + get The Finality [fin]
                         System.out.println("\nIt's not [[[A]]] sink, it's [[[THE SINK]]].");
                         System.out.println("\nThis is also where you can assemble the cake once you have [all the ingredients].");
                         System.out.println("\nAssemble?\n1. Yes\n2. No");
@@ -761,13 +810,27 @@ public class Interaction {
                         }
                         break;
 
-                    case "6":
-                        if (player.hasItem("hay")) {
+                    case "6":   // cow [fin]
+                        if (player.hasItem("hay") && !player.hasItem("milk")) {
                             System.out.println("\n");
-m
+                        System.out.println("\nCow: Moo?");
+                        System.out.println("\nOffer hay?\n1. Offer\n2. Don't offer");
+                        action = scan.nextLine();
+
+                        switch (action) {
+                            case "1":
+                                player.removeItem("hay");
+                                System.out.println("\nThe cow spits out a perfectly preserved jag of milk.");
+                                player.addItem("milk");
+                                break;
+                            case "2":
+                                break;
+                            default:
+                                System.out.println("Invalid decision.");
+                                break;
+                            }
                         }
                         break;
-
                     default:
                         System.out.println("\nInvalid action.");
                         break;
