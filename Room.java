@@ -56,6 +56,7 @@ public class Room {
         System.out.println("\nYou've collected the last artifact! Huzzah!\nYou leave the premises unscathed.");
         System.out.println("\n\nWould you like to play the trial DLC?\n1. Yes\n2. No");
         action = scan.nextLine();
+
         switch (action) {
             // head to the "DLC"
             case "1":

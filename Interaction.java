@@ -327,7 +327,6 @@ public class Interaction {
                             System.out.println("\nYou look under the charred bed.");
                             System.out.println("You have found the " + artifact.getName(roomNumber) + "!!!");
                             player.addItem(artifact.getName(roomNumber));
-
                             break;
                         }
 
@@ -387,6 +386,7 @@ public class Interaction {
                         System.out.println("\nMaple wood.");
                         System.out.println("\n1. Open");
                         action = scan.nextLine();
+
                         switch (action) {
                             case "1":
                                 if (player.hasItem("jug of gasoline")) {
@@ -424,6 +424,27 @@ public class Interaction {
 
             // DLC
             case "DLC":
+                if (!player.hasItem("eggs")) {
+                    int eggRand = (int) (Math.random() * 3) + 1;
+                    if (eggRand == 1) {
+                        System.out.println("\nThere's a carton of eggs on the floor.");
+                        System.out.println("\n1. Pick up\n2. Leave");
+                        action = scan.nextLine();
+
+                        switch (action) {
+                            case "1":
+                                player.addItem("eggs");
+                                break;
+                            case "2":
+                                System.out.println("\nYou leave the eggs.");
+                                break;
+                            default:
+                                System.out.println("Invalid decision.");
+                                break;
+                        }
+                    }
+                }
+
                 System.out.println("\nYou don't belong here.");
 
                 if (player.hasItem("hay")) {
@@ -431,7 +452,8 @@ public class Interaction {
                 }
                 else {
                     System.out.println("\n1. God\n2. Jolly Good Man That Looks Extremely Suspicious\n3. Bed of stars\n4. Desk\n5. The Sink");
-                }action = scan.nextLine();
+                }
+                action = scan.nextLine();
 
                 switch (action) {
                     case "1":   // God
@@ -474,8 +496,8 @@ public class Interaction {
                                         }
                                         else if (npc.getTalk("god") == 1 && player.hasItem("cake recipe")) {
                                             System.out.println("\nGod: Oh boy. It's been too long since I've had cake." +
-                                                    " The ingredients are probably scattered somewhere. I get rather forgetful.");
-                                            System.out.println("\nGod: Would you like me to list the ingredients?\n1. Yes\n2. No");
+                                                    " The ingredients are probably scattered somewhere. I get rather forgetful.\n" +
+                                                    "God: Would you like me to list the ingredients?\n1. Yes\n2. No");
 
                                             action = scan.nextLine();
 
@@ -525,32 +547,14 @@ public class Interaction {
                         }
                         break;
 
-                    case "2":   // jolly man
+                    case "2":   // jolly man [fin]
                         System.out.println("\nA middle-aged man. He seems to be mumbling to himself.");
                         if (player.hasItem("hay")) {
                             System.out.println("\nJolly Man: Hm-hmm~ Ahoy! [laughs [un-suspiciously]]");
-                        }
-                        else {
-                            System.out.println("\nJolly Man: Halloo! Do ye need something?");
-                            System.out.println("\n1. Ask for hay\n2. Tell him to leave");
+                            System.out.println("\n1. Tell him to leave");
                             action = scan.nextLine();
 
                             switch (action) {
-                                case "1":
-                                    System.out.println("\nJolly Man: Hey! Hey!\n...\nJolly Main: Oh, you meant [hay]!");
-                                    System.out.println("\nJolly Man: If you can open this box, I'll give you some hay! Hay!");
-                                    System.out.println("\nEnter passcode [in lowercase]:");
-                                    action = scan.nextLine();
-
-                                    if (action.equals("rgb")) {
-                                        System.out.println("\nYou hear a click.");
-                                        player.addItem("hay");
-                                        System.out.println("\nJolly Man: Oh no! My hay! Oh well.");
-                                    }
-                                    else {
-                                        System.out.println("\nJolly Man: Incorrect!");
-                                    }
-                                    break;
                                 case "2":
                                     int npcJolly = npc.getTalk("jolly man");
                                     switch (npcJolly) {
@@ -575,25 +579,51 @@ public class Interaction {
                                     break;
                             }
                         }
+                        else {
+                            System.out.println("\nJolly Man: Halloo! Do ye need something?");
+                            System.out.println("\n1. Ask for hay");
+                            action = scan.nextLine();
+
+                            switch (action) {
+                                case "1":
+                                    System.out.println("\nJolly Man: Hey! Hey!\n...\nJolly Man: Oh, you meant [hay]!");
+                                    System.out.println("\nJolly Man: If you can open this box, I'll give you some hay! Hay!");
+                                    System.out.println("\nEnter passcode [in lowercase]:");
+                                    action = scan.nextLine();
+
+                                    if (action.equals("rgb")) {
+                                        System.out.println("\nYou hear a click.");
+                                        player.addItem("hay");
+                                        System.out.println("\nJolly Man: Oh no! My hay! Oh well.");
+                                    }
+                                    else {
+                                        System.out.println("\nJolly Man: Incorrect!");
+                                    }
+                                    break;
+                                default:
+                                    System.out.println("Invalid decision.");
+                                    break;
+                            }
+                        }
                         break;
 
                     case "3":   // bed of stars [fin]
                         System.out.println("\nShiny. They're assembled in a triangle-like formation.");
-                        System.out.println("\nTalk to the stars\n2. Read note");
+                        System.out.println("\n1. Talk to the stars\n2. Read note");
                         action = scan.nextLine();
 
                         switch (action) {
                             case "1":
                                 System.out.println("\nStars: OH. HI. WHAT DO YOU WANT?");
-                                System.out.println("\n1. Ask about chocolate\n 2. Ask for hay.");
+                                System.out.println("\n1. Ask about chocolate\n2. Ask for hay.");
                                 action = scan.nextLine();
 
                                 switch (action) {
                                     case "1":
                                         if (!player.hasItem("chocolate")) {
-                                            System.out.println("\nStars: CHOCOLATE? WHY WOULD WE HAVE CHOCOLATE?");
-                                            System.out.println("\nStars: OH, ACTUALLY, WE MIGHT HAVE SOME OF THOSE IN OUR 100-KARAT CHOCOLATE STASH.");
-                                            System.out.println("\nStars: WE'LL GIVE THE CHOCOLATE IF AND ONLY IF YOU ANSWER THIS RIDDLE CORRECTLY...");
+                                            System.out.println("\nStars: CHOCOLATE? WHY WOULD WE HAVE CHOCOLATE?\n" +
+                                                    "Stars: OH, ACTUALLY, WE MIGHT HAVE SOME OF THOSE IN OUR 100-KARAT CHOCOLATE STASH." +
+                                                    "\nStars: WE'LL GIVE THE CHOCOLATE IF AND ONLY IF YOU ANSWER THIS RIDDLE CORRECTLY...");
                                             System.out.println("\nListen to riddle?\n1. Yes\n2. No");
                                             action = scan.nextLine();
 
@@ -792,10 +822,11 @@ public class Interaction {
                                     player.removeItem("strawberries");
                                     player.removeItem("milk");
                                     player.removeItem("eggs");
-                                    player.addItem("The Finality");
+                                    player.addItem(artifact.getName(roomNumber));
                                     System.out.println("\nWoo! You have collected the divine caketh of the gods!");
                                     System.out.println("\nIn the distance, you can hear a jolly man wailing and a cow laughing...");
                                     System.out.println("\n\nThe END!");
+                                    System.exit(0);
                                 }
                                 else {
                                     System.out.println("\nYou don't have all the ingredients.");
@@ -824,6 +855,7 @@ public class Interaction {
                                 player.addItem("milk");
                                 break;
                             case "2":
+                                System.out.println("\nYou have offended the cow.");
                                 break;
                             default:
                                 System.out.println("Invalid decision.");
