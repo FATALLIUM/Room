@@ -1,4 +1,3 @@
-import javax.annotation.processing.SupportedSourceVersion;
 import java.util.Scanner;
 
 // transcription of the entire script/interactions the player can do
