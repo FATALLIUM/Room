@@ -270,7 +270,7 @@ public class Interaction {
                                     switch (action) {
                                         case "1":
                                             System.out.println("\nYou douse all your acquired items in gasoline.");
-                                            player.removeItem("tattered blankets");
+                                            player.removeItem("tattered bedsheets");
                                             player.removeItem("jug of gasoline");
                                             player.removeItem("teacup");
                                             player.removeItem("toothbrush");
@@ -850,7 +850,7 @@ public class Interaction {
                         switch (action) {
                             case "1":
                                 player.removeItem("hay");
-                                System.out.println("\nThe cow spits out a perfectly preserved jag of milk.");
+                                System.out.println("\nThe cow spits out a perfectly preserved jug of milk.");
                                 player.addItem("milk");
                                 break;
                             case "2":
